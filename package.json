@@ -1,13 +1,20 @@
-﻿{
+{
   "name": "crm-izzy",
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "description": "CRM Profesional - Conversa Design",
   "private": true,
   "scripts": {
-    "install-all": "cd frontend && npm install && cd ../backend && npm install",
-    "start": "cd backend && npm start",
-    "dev": "concurrently \"cd frontend && npm start\" \"cd backend && npm start\""
+    "start": "docker-compose up",
+    "build": "docker build -t crm-izzy .",
+    "dev": "docker-compose up --build"
   },
-  "devDependencies": {
-    "concurrently": "^7.6.0"
-  }
+  "keywords": [
+    "crm",
+    "clientes",
+    "ventas",
+    "gestión",
+    "conversa"
+  ],
+  "author": "Izzy Solutions",
+  "license": "MIT"
 }
