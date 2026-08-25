@@ -1,0 +1,13 @@
+﻿{
+  "name": "crm-izzy",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install-all": "cd frontend && npm install && cd ../backend && npm install",
+    "start": "cd backend && npm start",
+    "dev": "concurrently \"cd frontend && npm start\" \"cd backend && npm start\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
