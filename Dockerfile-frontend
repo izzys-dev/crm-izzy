@@ -1,0 +1,34 @@
+# Build stage
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Copiar package.json
+COPY package.json package-lock.json* ./
+
+# Instalar dependencias
+RUN npm install --legacy-peer-deps
+
+# Copiar código fuente
+COPY public ./public
+COPY src ./src
+
+# Build
+RUN npm run build
+
+# Serve stage
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Instalar serve para servir archivos estáticos
+RUN npm install -g serve
+
+# Copiar archivos compilados desde builder
+COPY --from=builder /app/build ./build
+
+# Exponer puerto
+EXPOSE 3000
+
+# Comando para iniciar
+CMD ["serve", "-s", "build", "-l", "3000"]
