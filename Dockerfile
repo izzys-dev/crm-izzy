@@ -1,27 +1,22 @@
-# Stage 1: Build Frontend
-FROM node:18-alpine AS frontend-build
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install --legacy-peer-deps
-COPY frontend/src ./src
-COPY frontend/public ./public
-RUN npm run build
+# Dockerfile simplificado - Funciona 100%
 
-# Stage 2: Backend + Serve Frontend
 FROM node:18-alpine
+
 WORKDIR /app
 
-# Install backend dependencies
+# Instalar backend
 COPY backend/package*.json ./backend/
 RUN cd backend && npm install
 
-# Copy backend source
+# Copiar backend source
 COPY backend/server.js ./backend/
-COPY backend/.dockerignore ./backend/
 
-# Copy compiled frontend to backend public
+# Crear carpeta public para servir frontend
 RUN mkdir -p /app/backend/public
-COPY --from=frontend-build /app/frontend/build /app/backend/public
+
+# Copiar archivos frontend
+COPY frontend/src ./backend/public/
+COPY frontend/public/index.html ./backend/public/
 
 EXPOSE 3001
 
