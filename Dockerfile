@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:18 AS builder
 
 WORKDIR /app/frontend
 COPY frontend/package.json ./
@@ -10,7 +10,7 @@ COPY frontend/public ./public
 RUN npm run build
 
 # Backend
-FROM node:18-alpine
+FROM node:18
 WORKDIR /app
 
 COPY backend/package.json ./backend/
