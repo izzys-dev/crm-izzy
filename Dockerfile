@@ -17,4 +17,3 @@ COPY frontend/src /app/backend/public/
 EXPOSE 3001
 
 CMD ["node", "backend/server.js"]
-
