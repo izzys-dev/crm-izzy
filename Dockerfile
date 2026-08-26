@@ -1,18 +1,25 @@
-FROM node:18-alpine
+FROM node:18-alpine AS builder
 
+WORKDIR /app/frontend
+COPY frontend/package.json ./
+RUN npm install --legacy-peer-deps
+
+COPY frontend/src ./src
+COPY frontend/public ./public
+
+RUN npm run build
+
+# Backend
+FROM node:18-alpine
 WORKDIR /app
 
-# Instalar backend solamente
 COPY backend/package.json ./backend/
 RUN cd backend && npm install
 
-# Copiar backend
 COPY backend/server.js ./backend/
 
-# Copiar frontend estáticos
-RUN mkdir -p /app/backend/public
-COPY frontend/public /app/backend/public/
-COPY frontend/src /app/backend/public/
+# Copiar el build compilado
+COPY --from=builder /app/frontend/build /app/backend/public
 
 EXPOSE 3001
 
